@@ -1,0 +1,183 @@
+<div class="page">
+  <h1>Mi perfil</h1>
+
+  @if (auth.currentUser(); as u) {
+    <p class="meta">{{ u.email }} · Roles: {{ u.roles.join(', ') }}</p>
+  }
+
+  @if (message()) {
+    <div class="alert alert-success">{{ message() }}</div>
+  }
+  @if (error()) {
+    <div class="alert alert-error">{{ error() }}</div>
+  }
+
+  <section class="card debt-section">
+    <h2>Deuda con la plataforma</h2>
+    <p class="muted">Comisiones por match y pagos pendientes (RF-13 a RF-19).</p>
+
+    @if (loadingDeuda()) {
+      <p class="muted">Cargando información de deuda…</p>
+    } @else {
+      @if (deuda(); as d) {
+      <div class="debt-summary">
+        <p>
+          <strong>Saldo pendiente:</strong>
+          {{ d.saldoDeudaAcumulado | currency:'COP':'symbol-narrow':'1.0-0' }}
+        </p>
+        <p class="muted">
+          Límite máximo: {{ d.limiteDeudaMaxima | currency:'COP':'symbol-narrow':'1.0-0' }}
+        </p>
+        @if (d.inhabilitadoPorDeuda) {
+          <p class="alert alert-error debt-warning">
+            Tu cuenta está inhabilitada por exceder el límite de deuda. Paga tus deudas pendientes.
+          </p>
+        }
+      </div>
+
+      @if (d.deudasPendientes.length > 0) {
+        <h3>Deudas pendientes</h3>
+        <ul class="debt-list">
+          @for (item of d.deudasPendientes; track item.id) {
+            <li class="debt-item">
+              <div>
+                <strong>{{ item.descripcion }}</strong>
+                @if (item.requerimientoTitulo) {
+                  <span class="muted"> · {{ item.requerimientoTitulo }}</span>
+                }
+                <p>{{ item.monto | currency:'COP':'symbol-narrow':'1.0-0' }}</p>
+                <time class="muted">{{ item.creadoEn | date:'short' }}</time>
+              </div>
+              <button
+                type="button"
+                class="btn btn-primary btn-sm"
+                [disabled]="pagandoDeudaId() === item.id || metodosPago().length === 0"
+                (click)="pagarDeuda(item)"
+              >
+                {{ pagandoDeudaId() === item.id ? 'Pagando…' : 'Pagar' }}
+              </button>
+            </li>
+          }
+        </ul>
+      } @else {
+        <p class="muted">No tienes deudas pendientes.</p>
+      }
+
+      @if (d.transaccionesRecientes.length > 0) {
+        <h3>Transacciones recientes</h3>
+        <ul class="tx-list">
+          @for (tx of d.transaccionesRecientes; track tx.id) {
+            <li>
+              <span>{{ tx.tipo }} · {{ tx.monto | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
+              <span class="badge-sm">{{ tx.estado }}</span>
+              <time class="muted">{{ tx.creadoEn | date:'short' }}</time>
+            </li>
+          }
+        </ul>
+      }
+      }
+    }
+
+    <h3>Métodos de pago</h3>
+    @if (metodosPago().length === 0) {
+      <p class="muted">Aún no has registrado un método de pago.</p>
+    } @else {
+      <ul class="method-list">
+        @for (m of metodosPago(); track m.id) {
+          <li>
+            {{ m.tipo }} — {{ m.alias }}
+            @if (m.ultimosCuatro) {
+              <span class="muted"> ·••• {{ m.ultimosCuatro }}</span>
+            }
+            @if (m.predeterminado) {
+              <span class="badge-sm">Predeterminado</span>
+            }
+          </li>
+        }
+      </ul>
+    }
+
+    <form class="method-form" [formGroup]="metodoForm" (ngSubmit)="registrarMetodoPago()">
+      <label>
+        Tipo
+        <select formControlName="tipo">
+          <option value="NEQUI">Nequi</option>
+          <option value="DAVIPLATA">Daviplata</option>
+          <option value="TARJETA">Tarjeta</option>
+          <option value="OTRO">Otro</option>
+        </select>
+      </label>
+      <label>
+        Alias
+        <input formControlName="alias" placeholder="Ej. Mi Nequi" />
+      </label>
+      <label>
+        Últimos 4 dígitos (opcional)
+        <input formControlName="ultimosCuatro" maxlength="4" />
+      </label>
+      <label class="checkbox-row">
+        <input type="checkbox" formControlName="predeterminado" />
+        Usar como predeterminado
+      </label>
+      <button type="submit" class="btn btn-ghost" [disabled]="guardandoMetodo()">
+        {{ guardandoMetodo() ? 'Guardando…' : 'Añadir método de pago' }}
+      </button>
+    </form>
+  </section>
+
+  <section class="card photo-section">
+    <h2>Foto de perfil</h2>
+    <div class="photo-row">
+      <div class="avatar">
+        @if (fotoPreview(); as src) {
+          <img [src]="src" alt="Foto de perfil" />
+        } @else {
+          <span class="avatar-placeholder">Sin foto</span>
+        }
+      </div>
+      <label class="btn btn-ghost photo-btn">
+        {{ uploadingPhoto() ? 'Subiendo…' : 'Cambiar foto' }}
+        <input type="file" accept="image/*" hidden (change)="onFotoSelected($event)" [disabled]="uploadingPhoto()" />
+      </label>
+    </div>
+  </section>
+
+  <form class="card" [formGroup]="form" (ngSubmit)="submit()">
+    <label>Nombre <input formControlName="nombre" /></label>
+    <label>Apellido <input formControlName="apellido" /></label>
+    <label>Teléfono <input formControlName="telefono" /></label>
+    @if (auth.hasRole('AYUDANTE')) {
+      <label>Bio (ayudante) <textarea formControlName="bio" rows="3"></textarea></label>
+    }
+    <button type="submit" class="btn btn-primary" [disabled]="saving()">
+      {{ saving() ? 'Guardando…' : 'Guardar cambios' }}
+    </button>
+  </form>
+
+  @if (auth.hasRole('AYUDANTE')) {
+    <section class="card evidencias-section">
+      <h2>Evidencias de trabajo</h2>
+      <p class="muted">Sube fotos de trabajos realizados para tu portafolio.</p>
+
+      <label class="btn btn-primary evidence-btn">
+        {{ uploadingEvidence() ? 'Subiendo…' : 'Añadir evidencia' }}
+        <input type="file" accept="image/*" hidden (change)="onEvidenciaSelected($event)" [disabled]="uploadingEvidence()" />
+      </label>
+
+      @if (evidencias().length === 0) {
+        <p class="muted empty-evidence">Aún no has subido evidencias.</p>
+      } @else {
+        <ul class="evidence-grid">
+          @for (e of evidencias(); track e.id) {
+            <li class="evidence-item">
+              <img [src]="evidenciaUrl(e.urlArchivo)" [alt]="e.descripcion ?? 'Evidencia'" />
+              <button type="button" class="btn btn-ghost btn-sm" (click)="eliminarEvidencia(e.id)">
+                Eliminar
+              </button>
+            </li>
+          }
+        </ul>
+      }
+    </section>
+  }
+</div>

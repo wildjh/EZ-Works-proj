@@ -1,0 +1,193 @@
+.shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 20;
+}
+
+.topbar[data-theme='empleador'] {
+  background: linear-gradient(90deg, #dbeafe 0%, #eff6ff 100%);
+  border-bottom-color: #93c5fd;
+}
+
+.topbar[data-theme='ayudante'] {
+  background: linear-gradient(90deg, #d1fae5 0%, #ecfdf5 100%);
+  border-bottom-color: #6ee7b7;
+}
+
+.topbar[data-theme='admin'] {
+  background: linear-gradient(90deg, #ede9fe 0%, #f5f3ff 100%);
+  border-bottom-color: #c4b5fd;
+}
+
+.topbar-start {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.menu-toggle {
+  display: none;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 0.35rem 0.55rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.brand-icon {
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.brand-text {
+  white-space: nowrap;
+}
+
+.nav {
+  display: flex;
+  gap: 0.5rem;
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.nav a {
+  padding: 0.4rem 0.75rem;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.nav a.active,
+.nav a:hover {
+  color: var(--primary);
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.user-area {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.user-name {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.main {
+  flex: 1;
+  padding: 1.5rem;
+  max-width: 960px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.nav-backdrop {
+  display: none;
+}
+
+.shell[data-theme='empleador'] {
+  --primary: #2563eb;
+  --primary-soft: #eff6ff;
+}
+
+.shell[data-theme='ayudante'] {
+  --primary: #059669;
+  --primary-soft: #ecfdf5;
+}
+
+.shell[data-theme='admin'] {
+  --primary: #7c3aed;
+  --primary-soft: #f5f3ff;
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: inline-flex;
+  }
+
+  .nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: inherit;
+    border-bottom: 1px solid var(--border);
+    padding: 0.75rem 1rem 1rem;
+    box-shadow: var(--shadow);
+    z-index: 30;
+  }
+
+  .nav.nav-open {
+    display: flex;
+  }
+
+  .nav a {
+    width: 100%;
+  }
+
+  .nav-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.35);
+    border: none;
+    z-index: 10;
+    cursor: pointer;
+  }
+
+  .topbar {
+    flex-wrap: nowrap;
+  }
+
+  .user-area .user-name {
+    display: none;
+  }
+
+  .brand-text {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .topbar {
+    padding: 0.75rem 1rem;
+  }
+
+  .main {
+    padding: 1rem;
+  }
+}

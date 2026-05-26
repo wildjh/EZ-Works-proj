@@ -1,0 +1,41 @@
+<div class="page">
+  <a routerLink="/ayudante/vacantes" class="back">← Vacantes</a>
+
+  @if (loading()) {
+    <p class="muted">Cargando…</p>
+  } @else if (error() && !req()) {
+    <div class="alert alert-error">{{ error() }}</div>
+  } @else {
+    @if (req(); as r) {
+      <div class="card">
+        <h1>{{ r.titulo }}</h1>
+        <p>{{ r.descripcion }}</p>
+        <p><strong>{{ r.remuneracion | currency:'COP':'symbol-narrow':'1.0-0' }}</strong></p>
+        @if (r.zonaAproximada) {
+          <p class="muted">Zona: {{ r.zonaAproximada }}</p>
+        }
+      </div>
+
+      @if (success()) {
+        <div class="alert alert-success">{{ success() }}</div>
+      }
+      @if (error()) {
+        <div class="alert alert-error">{{ error() }}</div>
+      }
+
+      @if (r.estado === 'PUBLICADO') {
+        <form class="card" [formGroup]="form" (ngSubmit)="postular()">
+          <label>
+            Mensaje de presentación (opcional)
+            <textarea formControlName="mensajePresentacion" rows="3"></textarea>
+          </label>
+          <button type="submit" class="btn btn-primary" [disabled]="posting()">
+            {{ posting() ? 'Enviando…' : 'Postularme' }}
+          </button>
+        </form>
+      } @else {
+        <p class="muted">Esta vacante ya no acepta postulaciones.</p>
+      }
+    }
+  }
+</div>

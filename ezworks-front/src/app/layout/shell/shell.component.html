@@ -1,0 +1,46 @@
+<div class="shell" [attr.data-theme]="themeRole()">
+  <header class="topbar" [attr.data-theme]="themeRole()">
+    <div class="topbar-start">
+      <button type="button" class="menu-toggle" (click)="toggleMenu()" aria-label="Menú">
+        ☰
+      </button>
+      <a routerLink="/inicio" class="brand" (click)="closeMenu()">
+        <span class="brand-icon">{{ brandLabel().icon }}</span>
+        <span class="brand-text">{{ brandLabel().text }}</span>
+      </a>
+    </div>
+
+    <nav class="nav" [class.nav-open]="menuOpen()">
+      <a routerLink="/inicio" routerLinkActive="active" (click)="closeMenu()">Inicio</a>
+      @if (hasRole('ADMIN')) {
+        <a routerLink="/admin/usuarios" routerLinkActive="active" (click)="closeMenu()">Usuarios</a>
+      }
+      @if (hasRole('EMPLEADOR')) {
+        <a routerLink="/empleador/requerimientos" routerLinkActive="active" (click)="closeMenu()">
+          Mis trabajos
+        </a>
+      }
+      @if (hasRole('AYUDANTE')) {
+        <a routerLink="/ayudante/vacantes" routerLinkActive="active" (click)="closeMenu()">Vacantes</a>
+      }
+      <a routerLink="/perfil" routerLinkActive="active" (click)="closeMenu()">Perfil</a>
+      <a routerLink="/chats" routerLinkActive="active" (click)="closeMenu()">Chats</a>
+    </nav>
+
+    <div class="user-area">
+      @if (auth.currentUser(); as u) {
+        <app-user-avatar [url]="fotoUsuario()" [name]="nombreUsuario()" size="sm" />
+        <span class="user-name">{{ u.nombre }} {{ u.apellido }}</span>
+      }
+      <button type="button" class="btn btn-ghost" (click)="logout()">Salir</button>
+    </div>
+  </header>
+
+  @if (menuOpen()) {
+    <button type="button" class="nav-backdrop" (click)="closeMenu()" aria-label="Cerrar menú"></button>
+  }
+
+  <main class="main">
+    <router-outlet />
+  </main>
+</div>

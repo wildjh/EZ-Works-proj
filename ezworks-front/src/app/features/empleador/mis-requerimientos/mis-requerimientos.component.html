@@ -1,0 +1,31 @@
+<div class="page">
+  <div class="page-header">
+    <h1>Mis requerimientos</h1>
+    <a routerLink="/empleador/requerimientos/nuevo" class="btn btn-primary">+ Nuevo</a>
+  </div>
+
+  @if (loading()) {
+    <p class="muted">Cargando…</p>
+  } @else if (error()) {
+    <div class="alert alert-error">{{ error() }}</div>
+  } @else if (items().length === 0) {
+    <div class="card empty">Aún no has publicado trabajos.</div>
+  } @else {
+    <ul class="list">
+      @for (r of items(); track r.id) {
+        <li>
+          <a [routerLink]="['/empleador/requerimientos', r.id]" class="card list-item">
+            <div class="list-item-top">
+              <strong>{{ r.titulo }}</strong>
+              <span class="badge" [attr.data-estado]="r.estado">{{ estadoLabel(r.estado) }}</span>
+            </div>
+            <p>{{ r.categoriaNombre }} · {{ r.remuneracion | currency:'COP':'symbol-narrow':'1.0-0' }}</p>
+            @if (r.zonaAproximada) {
+              <p class="muted">{{ r.zonaAproximada }}</p>
+            }
+          </a>
+        </li>
+      }
+    </ul>
+  }
+</div>

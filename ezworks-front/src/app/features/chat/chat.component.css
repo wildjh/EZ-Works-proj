@@ -1,0 +1,106 @@
+.chat-profile-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.chat-profile-link h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.35rem;
+  color: var(--primary);
+}
+
+.chat-profile-link:hover h1 {
+  text-decoration: underline;
+}
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.chat-header h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.35rem;
+}
+
+.badge-closed {
+  display: inline-block;
+  margin: 0.25rem 0 0;
+  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  background: var(--border);
+  color: var(--text-muted);
+}
+
+.closed-banner {
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.wait-msg {
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 0.75rem;
+}
+
+.chat-page {
+  display: flex;
+  flex-direction: column;
+  max-width: 640px;
+  height: calc(100vh - 120px);
+}
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  min-height: 200px;
+}
+
+.msg {
+  max-width: 85%;
+  padding: 0.6rem 0.85rem;
+  border-radius: 12px;
+  background: var(--bg);
+  align-self: flex-start;
+}
+
+.msg.mine {
+  align-self: flex-end;
+  background: var(--primary-soft);
+}
+
+.msg-author {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.msg p {
+  margin: 0.25rem 0;
+}
+
+.msg time {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.composer {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.composer input {
+  flex: 1;
+}
+
+.empty-chat {
+  text-align: center;
+  padding: 2rem;
+}

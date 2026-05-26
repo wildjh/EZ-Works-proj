@@ -1,0 +1,57 @@
+<div class="page chat-page">
+  <a routerLink="/chats" class="back">← Chats</a>
+
+  @if (loading()) {
+    <p class="muted">Cargando mensajes…</p>
+  } @else if (error() && !conv()) {
+    <div class="alert alert-error">{{ error() }}</div>
+  } @else {
+    @if (conv(); as c) {
+      <header class="chat-header">
+        <app-user-avatar [url]="fotoInterlocutor(c)" [name]="nombreInterlocutor(c)" size="md" />
+        <div>
+          @if (perfilLink(c); as link) {
+            <a [routerLink]="link" [queryParams]="perfilQueryParams(c)" class="chat-profile-link">
+              <h1>{{ c.otroParticipanteNombre }} {{ c.otroParticipanteApellido }}</h1>
+            </a>
+          } @else {
+            <h1>{{ c.otroParticipanteNombre }} {{ c.otroParticipanteApellido }}</h1>
+          }
+          @if (c.requerimientoTitulo) {
+            <p class="muted">{{ c.requerimientoTitulo }}</p>
+          }
+          @if (!c.activa) {
+            <p class="badge-closed">{{ c.requerimientoEstado === 'FINALIZADO' ? 'Completado' : 'Cerrado' }}</p>
+          }
+        </div>
+      </header>
+
+      @if (!c.activa) {
+        <div class="alert alert-info closed-banner">{{ mensajeCierre(c) }}</div>
+      }
+
+      <div class="messages card">
+        @for (m of c.mensajes; track m.id) {
+          <div class="msg" [class.mine]="isMine(m.emisorUsuarioId)">
+            <span class="msg-author">{{ m.emisorNombre }}</span>
+            <p>{{ m.contenido }}</p>
+            <time>{{ m.enviadoEn | date:'short' }}</time>
+          </div>
+        }
+      </div>
+
+      @if (error()) {
+        <div class="alert alert-error">{{ error() }}</div>
+      }
+
+      @if (c.activa && c.puedeEnviar) {
+        <form class="composer" [formGroup]="form" (ngSubmit)="enviar()">
+          <input formControlName="contenido" placeholder="Escribe un mensaje…" autocomplete="off" />
+          <button type="submit" class="btn btn-primary" [disabled]="sending()">Enviar</button>
+        </form>
+      } @else if (c.activa) {
+        <p class="muted wait-msg">Esperando el primer mensaje del empleador para continuar la conversación.</p>
+      }
+    }
+  }
+</div>

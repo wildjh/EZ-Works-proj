@@ -1,0 +1,21 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: ezworks-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ezworks
+      MYSQL_USER: ezworks
+      MYSQL_PASSWORD: ezworks123
+    ports:
+      - "3306:3306"
+    volumes:
+      - ezworks_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  ezworks_mysql_data:

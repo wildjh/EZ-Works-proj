@@ -1,0 +1,25 @@
+<div class="page">
+  <h1>Vacantes disponibles</h1>
+
+  @if (loading()) {
+    <p class="muted">Cargando…</p>
+  } @else if (error()) {
+    <div class="alert alert-error">{{ error() }}</div>
+  } @else if (items().length === 0) {
+    <div class="card empty">No hay vacantes publicadas por ahora.</div>
+  } @else {
+    <ul class="list">
+      @for (r of items(); track r.id) {
+        <li>
+          <a [routerLink]="['/ayudante/vacantes', r.id]" class="card list-item">
+            <strong>{{ r.titulo }}</strong>
+            <p>{{ r.categoriaNombre }} · {{ r.remuneracion | currency:'COP':'symbol-narrow':'1.0-0' }}</p>
+            @if (r.zonaAproximada) {
+              <p class="muted">{{ r.zonaAproximada }}</p>
+            }
+          </a>
+        </li>
+      }
+    </ul>
+  }
+</div>

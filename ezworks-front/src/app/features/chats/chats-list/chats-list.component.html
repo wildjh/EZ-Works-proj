@@ -1,0 +1,42 @@
+<div class="page">
+  <h1>Chats</h1>
+  <p class="muted">Conversaciones con tus matches</p>
+
+  @if (loading()) {
+    <p class="muted">Cargando chats…</p>
+  } @else if (error()) {
+    <p class="alert alert-error">{{ error() }}</p>
+  } @else if (chats().length === 0) {
+    <div class="card empty">
+      <p class="muted">Aún no tienes conversaciones. Aparecerán aquí cuando se confirme un match.</p>
+    </div>
+  } @else {
+    <ul class="chat-list">
+      @for (c of chats(); track c.id) {
+        <li>
+          <a
+            [routerLink]="['/chat', c.id]"
+            (click)="abrirChat(c.id, $event)"
+            class="chat-item card"
+            [class.chat-closed]="!c.activa"
+          >
+            <app-user-avatar [url]="fotoChat(c)" [name]="nombreChat(c)" size="sm" />
+            <div class="chat-item-main">
+              <strong>{{ c.otroParticipanteNombre }} {{ c.otroParticipanteApellido }}</strong>
+              @if (!c.activa) {
+                <span class="badge-closed-sm">Cerrado</span>
+              }
+              <span class="chat-job">{{ c.requerimientoTitulo }}</span>
+              @if (c.ultimoMensaje) {
+                <p class="chat-preview">{{ c.ultimoMensaje }}</p>
+              } @else {
+                <p class="chat-preview muted">Sin mensajes aún</p>
+              }
+            </div>
+            <time>{{ c.abiertaEn | date:'short' }}</time>
+          </a>
+        </li>
+      }
+    </ul>
+  }
+</div>

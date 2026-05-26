@@ -1,0 +1,28 @@
+<div class="page">
+  <h1>{{ editId() ? 'Editar borrador' : 'Nuevo requerimiento' }}</h1>
+
+  @if (error()) {
+    <div class="alert alert-error">{{ error() }}</div>
+  }
+
+  <form class="card" [formGroup]="form" (ngSubmit)="submit()">
+    <label>
+      Categoría
+      <select formControlName="categoriaId">
+        <option [value]="0" disabled>Selecciona…</option>
+        @for (c of categorias(); track c.id) {
+          <option [value]="c.id">{{ c.nombre }}</option>
+        }
+      </select>
+    </label>
+    <label>Título <input formControlName="titulo" /></label>
+    <label>Descripción <textarea formControlName="descripcion" rows="4"></textarea></label>
+    <label>Remuneración (COP) <input type="number" formControlName="remuneracion" min="1" /></label>
+    <label>Zona aproximada <input formControlName="zonaAproximada" placeholder="Ej. Centro, Tunja" /></label>
+    <label>Dirección exacta (opcional, se revela tras match) <input formControlName="direccionExacta" /></label>
+
+    <button type="submit" class="btn btn-primary" [disabled]="loading()">
+      {{ loading() ? 'Guardando…' : (editId() ? 'Guardar cambios' : 'Crear borrador') }}
+    </button>
+  </form>
+</div>

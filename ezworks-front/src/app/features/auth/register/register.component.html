@@ -1,0 +1,61 @@
+<div class="auth-page register-page">
+  <div class="auth-card card">
+    <h1>Crear cuenta</h1>
+    <p class="subtitle">Únete a EZWorks</p>
+
+    @if (error()) {
+      <div class="alert alert-error">{{ error() }}</div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="row">
+        <label>
+          Nombre
+          <input type="text" formControlName="nombre" />
+        </label>
+        <label>
+          Apellido
+          <input type="text" formControlName="apellido" />
+        </label>
+      </div>
+
+      <label>
+        Correo
+        <input type="email" formControlName="email" />
+      </label>
+      <label>
+        Teléfono (opcional)
+        <input type="tel" formControlName="telefono" />
+      </label>
+      <label>
+        Contraseña (mín. 8)
+        <input type="password" formControlName="password" />
+      </label>
+
+      <fieldset class="roles">
+        <legend>¿Cómo usarás EZWorks?</legend>
+        <label class="checkbox">
+          <input type="checkbox" formControlName="rolEmpleador" />
+          Empleador — publico trabajos
+        </label>
+        <label class="checkbox">
+          <input type="checkbox" formControlName="rolAyudante" />
+          Ayudante — busco trabajos
+        </label>
+      </fieldset>
+
+      <label class="checkbox terms">
+        <input type="checkbox" formControlName="aceptaTerminos" />
+        Acepto términos y condiciones
+      </label>
+
+      <button type="submit" class="btn btn-primary btn-block" [disabled]="loading()">
+        {{ loading() ? 'Registrando…' : 'Registrarme' }}
+      </button>
+    </form>
+
+    <p class="footer-link">
+      ¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión</a>
+    </p>
+  </div>
+</div>

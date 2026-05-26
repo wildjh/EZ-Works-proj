@@ -1,0 +1,33 @@
+<div class="home">
+  <h1>Hola{{ auth.currentUser() ? ', ' + auth.currentUser()!.nombre : '' }}</h1>
+  <p class="lead">Plataforma de micro-trabajos informales en Tunja.</p>
+
+  <div class="cards">
+    @if (auth.hasRole('EMPLEADOR')) {
+      <a routerLink="/empleador/requerimientos" class="card action-card">
+        <h2>Empleador</h2>
+        <p>Publica requerimientos y elige ayudantes.</p>
+      </a>
+      <a routerLink="/empleador/requerimientos/nuevo" class="card action-card highlight">
+        <h2>+ Nuevo trabajo</h2>
+        <p>Crea un requerimiento en borrador y publícalo.</p>
+      </a>
+    }
+    @if (auth.hasRole('AYUDANTE')) {
+      <a routerLink="/ayudante/vacantes" class="card action-card">
+        <h2>Ayudante</h2>
+        <p>Explora vacantes disponibles y postúlate.</p>
+      </a>
+    }
+    @if (auth.hasRole('ADMIN')) {
+      <a routerLink="/admin/usuarios" class="card action-card admin-card">
+        <h2>Administración</h2>
+        <p>Gestiona cuentas de usuarios: activar, suspender o banear.</p>
+      </a>
+    }
+    <a routerLink="/perfil" class="card action-card">
+      <h2>Mi perfil</h2>
+      <p>Actualiza tus datos personales.</p>
+    </a>
+  </div>
+</div>

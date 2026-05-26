@@ -1,0 +1,46 @@
+<div class="page">
+  @if (chatId(); as chat) {
+    <a [routerLink]="['/chat', chat]" class="back">← Volver al chat</a>
+  } @else {
+    <a routerLink="/chats" class="back">← Volver</a>
+  }
+
+  @if (loading()) {
+    <p class="muted">Cargando perfil…</p>
+  } @else if (error() && !perfil()) {
+    <div class="alert alert-error">{{ error() }}</div>
+  } @else {
+    @if (perfil(); as p) {
+      <header class="profile-header card">
+        <app-user-avatar [url]="fotoUrl()" [name]="nombreCompleto()" size="md" />
+        <div>
+          <h1>{{ p.nombre }} {{ p.apellido }}</h1>
+          <p class="muted">
+            Calificación: {{ p.calificacionPromedio }} · {{ p.totalResenas }} reseñas
+          </p>
+          @if (p.bio) {
+            <p>{{ p.bio }}</p>
+          }
+        </div>
+      </header>
+
+      <section class="card">
+        <h2>Evidencias de trabajo</h2>
+        @if (p.evidencias.length === 0) {
+          <p class="muted">Sin evidencias publicadas.</p>
+        } @else {
+          <ul class="evidence-grid">
+            @for (e of p.evidencias; track e.id) {
+              <li>
+                <img [src]="evidenciaUrl(e.urlArchivo)" [alt]="e.descripcion ?? 'Evidencia'" />
+                @if (e.descripcion) {
+                  <p class="caption">{{ e.descripcion }}</p>
+                }
+              </li>
+            }
+          </ul>
+        }
+      </section>
+    }
+  }
+</div>

@@ -1,0 +1,249 @@
+<mxfile host="app.diagrams.net" version="21.7.5">
+  <diagram id="ezworks-bd-mvp" name="EZWorks BD — MVP">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1900" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ===================== PACKAGE BACKGROUNDS ===================== -->
+
+        <mxCell id="pkg_seg" value="Seguridad / Identidad" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;dashed=1;dashPattern=8 4;fontStyle=1;fontSize=12;verticalAlign=top;align=left;spacingLeft=8;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="10" y="10" width="570" height="440" as="geometry" />
+        </mxCell>
+
+        <mxCell id="pkg_gus" value="GestionUsuarios" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;dashed=1;dashPattern=8 4;fontStyle=1;fontSize=12;verticalAlign=top;align=left;spacingLeft=8;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="600" y="10" width="285" height="370" as="geometry" />
+        </mxCell>
+
+        <mxCell id="pkg_gem" value="GestionEmpleos" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;dashed=1;dashPattern=8 4;fontStyle=1;fontSize=12;verticalAlign=top;align=left;spacingLeft=8;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="905" y="10" width="575" height="540" as="geometry" />
+        </mxCell>
+
+        <mxCell id="pkg_gms" value="GestionMensajeria" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;dashed=1;dashPattern=8 4;fontStyle=1;fontSize=12;verticalAlign=top;align=left;spacingLeft=8;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="1500" y="10" width="310" height="380" as="geometry" />
+        </mxCell>
+
+        <!-- Nota Fase 2 -->
+        <mxCell id="note_fase2" value="&lt;b&gt;⏳ Fase 2 — Aplazado&lt;/b&gt;&lt;br&gt;• metodo_pago&lt;br&gt;• transaccion&lt;br&gt;• deuda_plataforma&lt;br&gt;• resena + evidencia_trabajo&lt;br&gt;• accion_admin&lt;br&gt;• notificacion" style="text;html=1;strokeColor=#d6b656;fillColor=#fffacd;align=left;verticalAlign=top;spacingLeft=10;spacingTop=8;fontSize=11;rounded=4;" vertex="1" parent="1">
+          <mxGeometry x="1500" y="410" width="310" height="145" as="geometry" />
+        </mxCell>
+
+        <!-- Nota ENUMs -->
+        <mxCell id="note_enums" value="&lt;b&gt;ENUMs&lt;/b&gt;&lt;br&gt;&lt;b&gt;usuario.estado_cuenta:&lt;/b&gt; ACTIVO | SUSPENDIDO | BANEADO | INHABILITADO_DEUDA&lt;br&gt;&lt;b&gt;requerimiento.estado:&lt;/b&gt; BORRADOR | PUBLICADO | EN_MATCH | FINALIZADO | CANCELADO&lt;br&gt;&lt;b&gt;postulacion.estado:&lt;/b&gt; PENDIENTE | ACEPTADA | RECHAZADA | RETIRADA&lt;br&gt;&lt;i&gt;* Cols exactas solo se revelan tras match (Ley 1581)&lt;/i&gt;" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;fontSize=10;rounded=4;" vertex="1" parent="1">
+          <mxGeometry x="10" y="465" width="570" height="100" as="geometry" />
+        </mxCell>
+
+
+        <!-- ===================== SEGURIDAD CLASSES ===================== -->
+
+        <!-- usuario -->
+        <mxCell id="cls_usuario" value="usuario" style="swimlane;fontStyle=1;align=center;startSize=26;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="30" y="55" width="245" height="212" as="geometry" />
+        </mxCell>
+        <mxCell id="body_usuario" value="PK    id : BIGINT&#xa;         email : VARCHAR(255) UNIQUE&#xa;         password_hash : VARCHAR(255)&#xa;         nombre : VARCHAR(100)&#xa;         apellido : VARCHAR(100)&#xa;         telefono : VARCHAR(20)&#xa;         estado_cuenta : ENUM&#xa;         creado_en : DATETIME(3)&#xa;         actualizado_en : DATETIME(3)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;overflow=hidden;rotatable=0;fontSize=11;" vertex="1" parent="cls_usuario">
+          <mxGeometry y="26" width="245" height="186" as="geometry" />
+        </mxCell>
+
+        <!-- rol -->
+        <mxCell id="cls_rol" value="rol" style="swimlane;fontStyle=1;align=center;startSize=26;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="300" y="55" width="255" height="88" as="geometry" />
+        </mxCell>
+        <mxCell id="body_rol" value="PK    id : TINYINT&#xa;         codigo : VARCHAR(30) UNIQUE&#xa;         nombre : VARCHAR(80)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;overflow=hidden;rotatable=0;fontSize=11;" vertex="1" parent="cls_rol">
+          <mxGeometry y="26" width="255" height="62" as="geometry" />
+        </mxCell>
+
+        <!-- usuario_rol -->
+        <mxCell id="cls_urol" value="usuario_rol" style="swimlane;fontStyle=1;align=center;startSize=26;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="300" y="165" width="255" height="88" as="geometry" />
+        </mxCell>
+        <mxCell id="body_urol" value="FK    usuario_id : BIGINT&#xa;FK    rol_id : TINYINT&#xa;         asignado_en : DATETIME(3)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;overflow=hidden;rotatable=0;fontSize=11;" vertex="1" parent="cls_urol">
+          <mxGeometry y="26" width="255" height="62" as="geometry" />
+        </mxCell>
+
+        <!-- aceptacion_terminos -->
+        <mxCell id="cls_at" value="aceptacion_terminos" style="swimlane;fontStyle=1;align=center;startSize=26;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="30" y="290" width="245" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="body_at" value="PK    id : BIGINT&#xa;FK    usuario_id : BIGINT&#xa;         version_terminos : VARCHAR(20)&#xa;         ip_origen : VARCHAR(45)&#xa;         aceptado_en : DATETIME(3)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;overflow=hidden;rotatable=0;fontSize=11;" vertex="1" parent="cls_at">
+          <mxGeometry y="26" width="245" height="104" as="geometry" />
+        </mxCell>
+
+        <!-- refresh_token -->
+        <mxCell id="cls_rt" value="refresh_token" style="swimlane;fontStyle=1;align=center;startSize=26;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="300" y="280" width="255" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="body_rt" value="PK    id : BIGINT&#xa;FK    usuario_id : BIGINT&#xa;         token_hash : VARCHAR(64) UNIQUE&#xa;         expira_en : DATETIME(3)&#xa;         revocado : BOOLEAN" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;overflow=hidden;rotatable=0;fontSize=11;" vertex="1" parent="cls_rt">
+          <mxGeometry y="26" width="255" height="104" as="geometry" />
+        </mxCell>
+
+
+        <!-- ===================== GESTION USUARIOS CLASSES ===================== -->
+
+        <!-- perfil_empleador -->
+        <mxCell id="cls_pe" value="perfil_empleador" style="swimlane;fontStyle=1;align=center;startSize=26;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="620" y="55" width="250" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="body_pe" value="PK       id : BIGINT&#xa;FK/UQ  usuario_id : BIGINT&#xa;             calificacion_promedio : DECIMAL(3,2)&#xa;             total_resenas : INT" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;overflow=hidden;rotatable=0;fontSize=11;" vertex="1" parent="cls_pe">
+          <mxGeometry y="26" width="250" height="82" as="geometry" />
+        </mxCell>
+
+        <!-- perfil_ayudante -->
+        <mxCell id="cls_pa" value="perfil_ayudante" style="swimlane;fontStyle=1;align=center;startSize=26;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="620" y="190" width="250" height="128" as="geometry" />
+        </mxCell>
+        <mxCell id="body_pa" value="PK       id : BIGINT&#xa;FK/UQ  usuario_id : BIGINT&#xa;             bio : TEXT&#xa;             calificacion_promedio : DECIMAL(3,2)&#xa;             total_resenas : INT" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;overflow=hidden;rotatable=0;fontSize=11;" vertex="1" parent="cls_pa">
+          <mxGeometry y="26" width="250" height="102" as="geometry" />
+        </mxCell>
+
+
+        <!-- ===================== GESTION EMPLEOS CLASSES ===================== -->
+
+        <!-- categoria -->
+        <mxCell id="cls_cat" value="categoria" style="swimlane;fontStyle=1;align=center;startSize=26;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="925" y="55" width="215" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="body_cat" value="PK    id : SMALLINT&#xa;         nombre : VARCHAR(80) UNIQUE&#xa;         activa : BOOLEAN&#xa;         creado_en : DATETIME(3)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;overflow=hidden;rotatable=0;fontSize=11;" vertex="1" parent="cls_cat">
+          <mxGeometry y="26" width="215" height="82" as="geometry" />
+        </mxCell>
+
+        <!-- requerimiento -->
+        <mxCell id="cls_req" value="requerimiento" style="swimlane;fontStyle=1;align=center;startSize=26;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1165" y="55" width="290" height="358" as="geometry" />
+        </mxCell>
+        <mxCell id="body_req" value="PK    id : BIGINT&#xa;FK    empleador_id : BIGINT&#xa;FK    categoria_id : SMALLINT&#xa;         titulo : VARCHAR(150)&#xa;         descripcion : TEXT&#xa;         remuneracion : DECIMAL(12,2)&#xa;         estado : ENUM&#xa;         zona_aproximada : VARCHAR(200)&#xa;         latitud_aprox : DECIMAL(10,7)&#xa;         longitud_aprox : DECIMAL(10,7)&#xa;         latitud_exacta : DECIMAL(10,7) *&#xa;         longitud_exacta : DECIMAL(10,7) *&#xa;         direccion_exacta : VARCHAR(300) *&#xa;         publicado_en : DATETIME(3)&#xa;         actualizado_en : DATETIME(3)&#xa;         finalizado_en : DATETIME(3)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;overflow=hidden;rotatable=0;fontSize=11;" vertex="1" parent="cls_req">
+          <mxGeometry y="26" width="290" height="332" as="geometry" />
+        </mxCell>
+
+        <!-- postulacion -->
+        <mxCell id="cls_post" value="postulacion" style="swimlane;fontStyle=1;align=center;startSize=26;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="925" y="190" width="215" height="148" as="geometry" />
+        </mxCell>
+        <mxCell id="body_post" value="PK    id : BIGINT&#xa;FK    requerimiento_id : BIGINT&#xa;FK    ayudante_id : BIGINT&#xa;         mensaje_presentacion : VARCHAR(500)&#xa;         estado : ENUM&#xa;         creado_en : DATETIME(3)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;overflow=hidden;rotatable=0;fontSize=11;" vertex="1" parent="cls_post">
+          <mxGeometry y="26" width="215" height="122" as="geometry" />
+        </mxCell>
+
+        <!-- emparejamiento -->
+        <mxCell id="cls_match" value="emparejamiento" style="swimlane;fontStyle=1;align=center;startSize=26;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="925" y="368" width="215" height="168" as="geometry" />
+        </mxCell>
+        <mxCell id="body_match" value="PK       id : BIGINT&#xa;FK/UQ  requerimiento_id : BIGINT&#xa;FK         empleador_id : BIGINT&#xa;FK         ayudante_id : BIGINT&#xa;FK/UQ  postulacion_id : BIGINT&#xa;             establecido_en : DATETIME(3)&#xa;             finalizado_en : DATETIME(3)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;overflow=hidden;rotatable=0;fontSize=11;" vertex="1" parent="cls_match">
+          <mxGeometry y="26" width="215" height="142" as="geometry" />
+        </mxCell>
+
+
+        <!-- ===================== GESTION MENSAJERIA CLASSES ===================== -->
+
+        <!-- conversacion -->
+        <mxCell id="cls_conv" value="conversacion" style="swimlane;fontStyle=1;align=center;startSize=26;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1520" y="55" width="270" height="88" as="geometry" />
+        </mxCell>
+        <mxCell id="body_conv" value="PK       id : BIGINT&#xa;FK/UQ  emparejamiento_id : BIGINT&#xa;             abierta_en : DATETIME(3)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;overflow=hidden;rotatable=0;fontSize=11;" vertex="1" parent="cls_conv">
+          <mxGeometry y="26" width="270" height="62" as="geometry" />
+        </mxCell>
+
+        <!-- mensaje -->
+        <mxCell id="cls_msg" value="mensaje" style="swimlane;fontStyle=1;align=center;startSize=26;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1520" y="170" width="270" height="148" as="geometry" />
+        </mxCell>
+        <mxCell id="body_msg" value="PK    id : BIGINT&#xa;FK    conversacion_id : BIGINT&#xa;FK    emisor_usuario_id : BIGINT&#xa;         contenido : TEXT&#xa;         leido : BOOLEAN&#xa;         enviado_en : DATETIME(3)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;overflow=hidden;rotatable=0;fontSize=11;" vertex="1" parent="cls_msg">
+          <mxGeometry y="26" width="270" height="122" as="geometry" />
+        </mxCell>
+
+
+        <!-- ===================== RELATIONSHIPS ===================== -->
+
+        <!-- usuario → usuario_rol (1:N) -->
+        <mxCell id="rel_u_ur" value="" style="endArrow=ERmany;startArrow=ERmandOne;endFill=0;startFill=0;strokeColor=#6c8ebf;strokeWidth=1.5;" edge="1" source="cls_usuario" target="cls_urol" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- rol → usuario_rol (1:N) -->
+        <mxCell id="rel_r_ur" value="" style="endArrow=ERmany;startArrow=ERmandOne;endFill=0;startFill=0;strokeColor=#6c8ebf;strokeWidth=1.5;" edge="1" source="cls_rol" target="cls_urol" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- usuario → aceptacion_terminos (1:N) -->
+        <mxCell id="rel_u_at" value="" style="endArrow=ERmany;startArrow=ERmandOne;endFill=0;startFill=0;strokeColor=#6c8ebf;strokeWidth=1.5;" edge="1" source="cls_usuario" target="cls_at" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- usuario → refresh_token (1:N) -->
+        <mxCell id="rel_u_rt" value="" style="endArrow=ERmany;startArrow=ERmandOne;endFill=0;startFill=0;strokeColor=#6c8ebf;strokeWidth=1.5;" edge="1" source="cls_usuario" target="cls_rt" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- usuario → perfil_empleador (1:0..1) -->
+        <mxCell id="rel_u_pe" value="" style="endArrow=ERzeroToOne;startArrow=ERmandOne;endFill=0;startFill=0;strokeColor=#82b366;strokeWidth=1.5;" edge="1" source="cls_usuario" target="cls_pe" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- usuario → perfil_ayudante (1:0..1) -->
+        <mxCell id="rel_u_pa" value="" style="endArrow=ERzeroToOne;startArrow=ERmandOne;endFill=0;startFill=0;strokeColor=#82b366;strokeWidth=1.5;" edge="1" source="cls_usuario" target="cls_pa" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- perfil_empleador → requerimiento (1:N) -->
+        <mxCell id="rel_pe_req" value="" style="endArrow=ERmany;startArrow=ERmandOne;endFill=0;startFill=0;strokeColor=#d6b656;strokeWidth=1.5;" edge="1" source="cls_pe" target="cls_req" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- categoria → requerimiento (1:N) -->
+        <mxCell id="rel_cat_req" value="" style="endArrow=ERmany;startArrow=ERmandOne;endFill=0;startFill=0;strokeColor=#d6b656;strokeWidth=1.5;" edge="1" source="cls_cat" target="cls_req" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- requerimiento → postulacion (1:N) -->
+        <mxCell id="rel_req_post" value="" style="endArrow=ERmany;startArrow=ERmandOne;endFill=0;startFill=0;strokeColor=#d6b656;strokeWidth=1.5;" edge="1" source="cls_req" target="cls_post" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- perfil_ayudante → postulacion (1:N) -->
+        <mxCell id="rel_pa_post" value="" style="endArrow=ERmany;startArrow=ERmandOne;endFill=0;startFill=0;strokeColor=#d6b656;strokeWidth=1.5;" edge="1" source="cls_pa" target="cls_post" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- requerimiento → emparejamiento (1:0..1) -->
+        <mxCell id="rel_req_match" value="" style="endArrow=ERzeroToOne;startArrow=ERmandOne;endFill=0;startFill=0;strokeColor=#d6b656;strokeWidth=1.5;" edge="1" source="cls_req" target="cls_match" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- postulacion → emparejamiento (1:0..1) -->
+        <mxCell id="rel_post_match" value="" style="endArrow=ERzeroToOne;startArrow=ERmandOne;endFill=0;startFill=0;strokeColor=#d6b656;strokeWidth=1.5;" edge="1" source="cls_post" target="cls_match" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- perfil_empleador → emparejamiento (1:N) -->
+        <mxCell id="rel_pe_match" value="" style="endArrow=ERmany;startArrow=ERmandOne;endFill=0;startFill=0;strokeColor=#d6b656;strokeWidth=1.5;dashed=1;dashPattern=6 3;" edge="1" source="cls_pe" target="cls_match" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- perfil_ayudante → emparejamiento (1:N) -->
+        <mxCell id="rel_pa_match" value="" style="endArrow=ERmany;startArrow=ERmandOne;endFill=0;startFill=0;strokeColor=#d6b656;strokeWidth=1.5;dashed=1;dashPattern=6 3;" edge="1" source="cls_pa" target="cls_match" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- emparejamiento → conversacion (1:1) -->
+        <mxCell id="rel_match_conv" value="" style="endArrow=ERzeroToOne;startArrow=ERmandOne;endFill=0;startFill=0;strokeColor=#9673a6;strokeWidth=1.5;" edge="1" source="cls_match" target="cls_conv" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- conversacion → mensaje (1:N) -->
+        <mxCell id="rel_conv_msg" value="" style="endArrow=ERmany;startArrow=ERmandOne;endFill=0;startFill=0;strokeColor=#9673a6;strokeWidth=1.5;" edge="1" source="cls_conv" target="cls_msg" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- usuario → mensaje (emisor, 1:N dashed) -->
+        <mxCell id="rel_u_msg" value="emisor" style="endArrow=ERmany;startArrow=ERmandOne;endFill=0;startFill=0;strokeColor=#9673a6;strokeWidth=1.5;dashed=1;dashPattern=6 3;fontSize=10;fontStyle=2;" edge="1" source="cls_usuario" target="cls_msg" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="155" y="600" />
+              <mxPoint x="1655" y="600" />
+              <mxPoint x="1655" y="244" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

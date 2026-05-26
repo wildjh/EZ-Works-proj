@@ -1,0 +1,25 @@
+<div class="page">
+  @if (chatId(); as chat) {
+    <a [routerLink]="['/chat', chat]" class="back">← Volver al chat</a>
+  } @else {
+    <a routerLink="/chats" class="back">← Volver</a>
+  }
+
+  @if (loading()) {
+    <p class="muted">Cargando perfil…</p>
+  } @else if (error()) {
+    <div class="alert alert-error">{{ error() }}</div>
+  } @else {
+    @if (perfil(); as p) {
+      <header class="profile-header card">
+        <app-user-avatar [url]="fotoUrl()" [name]="nombreCompleto()" size="md" />
+        <div>
+          <h1>{{ p.nombre }} {{ p.apellido }}</h1>
+          <p class="muted">
+            Empleador · Calificación: {{ p.calificacionPromedio }} · {{ p.totalResenas }} reseñas
+          </p>
+        </div>
+      </header>
+    }
+  }
+</div>
