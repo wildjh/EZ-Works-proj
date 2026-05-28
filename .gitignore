@@ -50,6 +50,7 @@ ezworks-front/pnpm-lock.yaml
 /bazel-out/
 /.angular/cache
 .sass-cache/
+ezworks-backend/src/main/resources/application-local.yml
 
 
 # ==========================================
