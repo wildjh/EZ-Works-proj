@@ -46,7 +46,12 @@ public class AdminBootstrap implements ApplicationRunner {
         }
 
         Rol adminRol = rolRepository.findByCodigo(RolCodigo.ADMIN)
-                .orElseThrow(() -> new IllegalStateException("Rol ADMIN no encontrado en base de datos"));
+                .orElseGet(() -> rolRepository.save(
+                        Rol.builder()
+                                .codigo(RolCodigo.ADMIN)
+                                .nombre("Administrador")
+                                .build()
+                ));
 
         Usuario admin = usuarioRepository.save(Usuario.builder()
                 .email(bootstrapEmail.toLowerCase().trim())
