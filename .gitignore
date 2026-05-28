@@ -1,36 +1,13 @@
-# Default ignored files
+# ==========================================
+# Entornos de Desarrollo (IDEs) y Editores
+# ==========================================
+
+# IntelliJ IDEA / WebStorm / PhpStorm
+.idea/
 /shelf/
-/.idea/workspace.xml
-# Editor-based HTTP Client requests
-/httpRequests/
-# Ignored default folder with query files
-/queries/
-# Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
-# Ignore build output folders
-/target/
-/ezworks-backend/target/
-/.idea/
-/ezworks-front/.vscode
-/dist
-/tmp
-/out-tsc
-/bazel-out
-
-# Node
-/node_modules
-npm-debug.log
-yarn-error.log
-
-# IDEs and editors
-.idea/
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
+/httpRequests/
 
 # Visual Studio Code
 .vscode/*
@@ -38,17 +15,57 @@ yarn-error.log
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+/ezworks-front/.vscode
+
+# Otros Editores (Eclipse, Sublime, Cloud9)
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
 .history/*
 
-# Miscellaneous
+
+# ==========================================
+# Dependencias y Gestores de Paquetes
+# ==========================================
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+
+# ==========================================
+# Compilación, Construcción y Salidas (Build)
+# ==========================================
+
+/target/
+/ezworks-backend/target/
+/dist/
+/tmp/
+/out-tsc/
+/bazel-out/
 /.angular/cache
 .sass-cache/
-/connect.lock
-/coverage
+
+
+# ==========================================
+# Pruebas y Reportes (Testing)
+# ==========================================
+
+/coverage/
 /libpeerconnection.log
 testem.log
 /typings
 
-# System files
+
+# ==========================================
+# Archivos de Sistema y Base de Datos
+# ==========================================
+
 .DS_Store
 Thumbs.db
+/connect.lock
+/queries/
