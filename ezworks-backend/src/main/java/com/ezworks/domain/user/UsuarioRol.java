@@ -24,7 +24,7 @@ public class UsuarioRol {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("rolId")
-    @JoinColumn(name = "rol_id")
+    @JoinColumn(name = "rol_id", columnDefinition = "TINYINT UNSIGNED") // <-- ¡Añade esto aquí!
     private Rol rol;
 
     @Column(name = "asignado_en", nullable = false, updatable = false)
