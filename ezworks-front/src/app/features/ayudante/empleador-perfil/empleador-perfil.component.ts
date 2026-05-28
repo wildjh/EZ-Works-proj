@@ -10,7 +10,6 @@ import { assetUrl } from '../../../core/utils/asset-url';
   standalone: true,
   imports: [RouterLink, UserAvatarComponent],
   templateUrl: './empleador-perfil.component.html',
-  styleUrl: './empleador-perfil.component.css',
 })
 export class EmpleadorPerfilComponent implements OnInit {
   private readonly api = inject(ApiService);

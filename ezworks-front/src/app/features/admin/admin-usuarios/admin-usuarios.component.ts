@@ -9,7 +9,6 @@ import { assetUrl } from '../../../core/utils/asset-url';
   standalone: true,
   imports: [UserAvatarComponent],
   templateUrl: './admin-usuarios.component.html',
-  styleUrl: './admin-usuarios.component.css',
 })
 export class AdminUsuariosComponent implements OnInit {
   private readonly api = inject(ApiService);

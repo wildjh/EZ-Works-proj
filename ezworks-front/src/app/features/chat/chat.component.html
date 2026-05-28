@@ -1,57 +1,167 @@
-<div class="page chat-page">
-  <a routerLink="/chats" class="back">← Chats</a>
+<div class="p-4 md:p-6 min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
+  <div class="max-w-4xl w-full mx-auto flex flex-col flex-1">
 
-  @if (loading()) {
-    <p class="muted">Cargando mensajes…</p>
-  } @else if (error() && !conv()) {
-    <div class="alert alert-error">{{ error() }}</div>
-  } @else {
-    @if (conv(); as c) {
-      <header class="chat-header">
-        <app-user-avatar [url]="fotoInterlocutor(c)" [name]="nombreInterlocutor(c)" size="md" />
-        <div>
-          @if (perfilLink(c); as link) {
-            <a [routerLink]="link" [queryParams]="perfilQueryParams(c)" class="chat-profile-link">
-              <h1>{{ c.otroParticipanteNombre }} {{ c.otroParticipanteApellido }}</h1>
-            </a>
-          } @else {
-            <h1>{{ c.otroParticipanteNombre }} {{ c.otroParticipanteApellido }}</h1>
-          }
-          @if (c.requerimientoTitulo) {
-            <p class="muted">{{ c.requerimientoTitulo }}</p>
-          }
-          @if (!c.activa) {
-            <p class="badge-closed">{{ c.requerimientoEstado === 'FINALIZADO' ? 'Completado' : 'Cerrado' }}</p>
-          }
-        </div>
-      </header>
+    <!-- Volver -->
+    <div class="mb-4 shrink-0">
+      <a routerLink="/chats"
+         class="inline-flex items-center text-upwork-green hover:text-upwork-green-hover font-medium text-sm transition group">
+        <svg class="w-4 h-4 mr-1.5 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        Chats
+      </a>
+    </div>
 
-      @if (!c.activa) {
-        <div class="alert alert-info closed-banner">{{ mensajeCierre(c) }}</div>
-      }
-
-      <div class="messages card">
-        @for (m of c.mensajes; track m.id) {
-          <div class="msg" [class.mine]="isMine(m.emisorUsuarioId)">
-            <span class="msg-author">{{ m.emisorNombre }}</span>
-            <p>{{ m.contenido }}</p>
-            <time>{{ m.enviadoEn | date:'short' }}</time>
-          </div>
-        }
+    <!-- Loading -->
+    @if (loading()) {
+      <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700
+                  rounded-2xl shadow-sm p-12 flex flex-col items-center justify-center
+                  text-gray-400 dark:text-gray-500 font-medium text-sm flex-1">
+        <svg class="animate-spin h-8 w-8 text-upwork-green mb-4" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        Cargando mensajes…
       </div>
 
-      @if (error()) {
-        <div class="alert alert-error">{{ error() }}</div>
-      }
+    } @else if (error() && !conv()) {
+      <div class="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800
+                  rounded-xl text-sm font-medium text-red-600 dark:text-red-400 flex items-center gap-2 shrink-0">
+        <svg class="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+        </svg>
+        {{ error() }}
+      </div>
 
-      @if (c.activa && c.puedeEnviar) {
-        <form class="composer" [formGroup]="form" (ngSubmit)="enviar()">
-          <input formControlName="contenido" placeholder="Escribe un mensaje…" autocomplete="off" />
-          <button type="submit" class="btn btn-primary" [disabled]="sending()">Enviar</button>
-        </form>
-      } @else if (c.activa) {
-        <p class="muted wait-msg">Esperando el primer mensaje del empleador para continuar la conversación.</p>
+    } @else {
+      @if (conv(); as c) {
+        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700
+                    rounded-2xl shadow-sm flex flex-col overflow-hidden
+                    h-[calc(100vh-10rem)] min-h-[550px] flex-1">
+
+          <!-- Header del chat -->
+          <header class="p-4 border-b border-gray-100 dark:border-gray-700
+                         flex items-center gap-4 bg-white dark:bg-gray-800 shrink-0">
+            <app-user-avatar [url]="fotoInterlocutor(c)" [name]="nombreInterlocutor(c)" size="md" class="shrink-0" />
+
+            <div class="flex-1 min-w-0">
+              @if (perfilLink(c); as link) {
+                <a [routerLink]="link" [queryParams]="perfilQueryParams(c)" class="group inline-block max-w-full">
+                  <h1 class="text-base font-bold text-upwork-dark dark:text-white truncate
+                             group-hover:text-upwork-green transition">
+                    {{ c.otroParticipanteNombre }} {{ c.otroParticipanteApellido }}
+                  </h1>
+                </a>
+              } @else {
+                <h1 class="text-base font-bold text-upwork-dark dark:text-white truncate">
+                  {{ c.otroParticipanteNombre }} {{ c.otroParticipanteApellido }}
+                </h1>
+              }
+              @if (c.requerimientoTitulo) {
+                <p class="text-xs text-gray-500 dark:text-gray-400 truncate mt-0.5 font-medium">
+                  Proyecto: {{ c.requerimientoTitulo }}
+                </p>
+              }
+            </div>
+
+            @if (!c.activa) {
+              <div class="shrink-0">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold uppercase tracking-wider
+                             bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                             border border-gray-200 dark:border-gray-600">
+                  {{ c.requerimientoEstado === 'FINALIZADO' ? 'Completado' : 'Cerrado' }}
+                </span>
+              </div>
+            }
+          </header>
+
+          <!-- Banner conversación cerrada -->
+          @if (!c.activa) {
+            <div class="p-3 bg-amber-50 dark:bg-amber-900/20 border-b border-amber-100 dark:border-amber-800
+                        text-xs font-medium text-amber-800 dark:text-amber-400 flex items-center gap-2 shrink-0">
+              <svg class="w-4 h-4 text-amber-600 dark:text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              {{ mensajeCierre(c) }}
+            </div>
+          }
+
+          <!-- Mensajes -->
+          <div class="flex-1 overflow-y-auto p-4 bg-gray-50/40 dark:bg-gray-900/40 space-y-4">
+            @for (m of c.mensajes; track m.id) {
+              <div class="flex flex-col max-w-[75%] p-3 rounded-2xl shadow-2xs border transition"
+                   [ngClass]="isMine(m.emisorUsuarioId)
+                     ? 'ml-auto bg-green-50 dark:bg-green-900/20 border-green-200/80 dark:border-green-800/60 rounded-tr-xs items-end text-right'
+                     : 'mr-auto bg-white dark:bg-gray-700 border-gray-200/80 dark:border-gray-600/60 rounded-tl-xs items-start'">
+
+                <span class="text-[11px] font-bold uppercase tracking-wide mb-1 block"
+                      [ngClass]="isMine(m.emisorUsuarioId) ? 'text-upwork-green' : 'text-upwork-dark dark:text-white'">
+                  {{ m.emisorNombre }}
+                </span>
+
+                <p class="text-sm text-gray-800 dark:text-gray-200 whitespace-pre-wrap leading-relaxed break-words">
+                  {{ m.contenido }}
+                </p>
+
+                <time class="text-[10px] text-gray-400 dark:text-gray-500 mt-1 block font-mono">
+                  {{ m.enviadoEn | date:'short' }}
+                </time>
+              </div>
+            }
+          </div>
+
+          <!-- Error inline -->
+          @if (error()) {
+            <div class="mx-4 mt-2 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800
+                        rounded-xl text-xs font-semibold text-red-600 dark:text-red-400
+                        flex items-center gap-2 shrink-0">
+              <span class="w-1.5 h-1.5 rounded-full bg-red-500 dark:bg-red-400"></span>
+              {{ error() }}
+            </div>
+          }
+
+          <!-- Footer / input -->
+          <footer class="p-4 bg-white dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700 shrink-0">
+            @if (c.activa && c.puedeEnviar) {
+              <form [formGroup]="form" (ngSubmit)="enviar()" class="flex items-center gap-2">
+                <input formControlName="contenido" placeholder="Escribe un mensaje…" autocomplete="off"
+                       class="flex-1 min-w-0 appearance-none block px-4 py-2.5
+                              bg-white dark:bg-gray-700
+                              border border-gray-300 dark:border-gray-600
+                              text-gray-900 dark:text-white
+                              placeholder-gray-400 dark:placeholder-gray-500
+                              rounded-full shadow-2xs
+                              focus:outline-none focus:ring-2 focus:ring-upwork-green focus:border-transparent
+                              text-sm transition" />
+                <button type="submit" [disabled]="sending()"
+                        class="shrink-0 inline-flex items-center justify-center px-5 py-2.5
+                               border border-transparent rounded-full shadow-sm
+                               text-sm font-bold text-white
+                               bg-upwork-green hover:bg-upwork-green-hover
+                               focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-upwork-green
+                               dark:focus:ring-offset-gray-800
+                               transition disabled:opacity-50 disabled:cursor-not-allowed">
+                  @if (sending()) {
+                    <svg class="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                  } @else {
+                    Enviar
+                  }
+                </button>
+              </form>
+            } @else if (c.activa) {
+              <div class="p-3 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-xl text-center">
+                <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">
+                  Esperando el primer mensaje del empleador para continuar la conversación.
+                </p>
+              </div>
+            }
+          </footer>
+
+        </div>
       }
     }
-  }
+  </div>
 </div>

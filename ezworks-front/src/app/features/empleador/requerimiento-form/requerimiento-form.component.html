@@ -1,28 +1,120 @@
-<div class="page">
-  <h1>{{ editId() ? 'Editar borrador' : 'Nuevo requerimiento' }}</h1>
+<div class="p-6 md:p-8 min-h-screen bg-gray-50 dark:bg-gray-900">
+  <div class="max-w-2xl mx-auto">
 
-  @if (error()) {
-    <div class="alert alert-error">{{ error() }}</div>
-  }
+    <div class="mb-8">
+      <h1 class="text-2xl font-bold text-upwork-dark dark:text-white tracking-tight">
+        {{ editId() ? 'Editar borrador' : 'Nuevo requerimiento' }}
+      </h1>
+    </div>
 
-  <form class="card" [formGroup]="form" (ngSubmit)="submit()">
-    <label>
-      Categoría
-      <select formControlName="categoriaId">
-        <option [value]="0" disabled>Selecciona…</option>
-        @for (c of categorias(); track c.id) {
-          <option [value]="c.id">{{ c.nombre }}</option>
-        }
-      </select>
-    </label>
-    <label>Título <input formControlName="titulo" /></label>
-    <label>Descripción <textarea formControlName="descripcion" rows="4"></textarea></label>
-    <label>Remuneración (COP) <input type="number" formControlName="remuneracion" min="1" /></label>
-    <label>Zona aproximada <input formControlName="zonaAproximada" placeholder="Ej. Centro, Tunja" /></label>
-    <label>Dirección exacta (opcional, se revela tras match) <input formControlName="direccionExacta" /></label>
+    @if (error()) {
+      <div class="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800
+                  rounded-xl text-sm font-medium text-red-600 dark:text-red-400 flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-red-500 dark:bg-red-400"></span>
+        {{ error() }}
+      </div>
+    }
 
-    <button type="submit" class="btn btn-primary" [disabled]="loading()">
-      {{ loading() ? 'Guardando…' : (editId() ? 'Guardar cambios' : 'Crear borrador') }}
-    </button>
-  </form>
+    <form [formGroup]="form" (ngSubmit)="submit()"
+          class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-sm p-6 sm:p-8 space-y-5">
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Categoría</label>
+        <select formControlName="categoriaId"
+                class="appearance-none block w-full px-3 py-2.5
+                       bg-white dark:bg-gray-700
+                       border border-gray-300 dark:border-gray-600
+                       text-gray-900 dark:text-white
+                       rounded-lg shadow-sm
+                       focus:outline-none focus:ring-2 focus:ring-upwork-green focus:border-transparent
+                       sm:text-sm transition">
+          <option [value]="0" disabled>Selecciona…</option>
+          @for (c of categorias(); track c.id) {
+            <option [value]="c.id">{{ c.nombre }}</option>
+          }
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Título</label>
+        <input formControlName="titulo"
+               class="appearance-none block w-full px-3 py-2.5
+                      bg-white dark:bg-gray-700
+                      border border-gray-300 dark:border-gray-600
+                      text-gray-900 dark:text-white
+                      placeholder-gray-400 dark:placeholder-gray-500
+                      rounded-lg shadow-sm
+                      focus:outline-none focus:ring-2 focus:ring-upwork-green focus:border-transparent
+                      sm:text-sm transition" />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Descripción</label>
+        <textarea formControlName="descripcion" rows="4"
+                  class="appearance-none block w-full px-3 py-2.5
+                         bg-white dark:bg-gray-700
+                         border border-gray-300 dark:border-gray-600
+                         text-gray-900 dark:text-white
+                         placeholder-gray-400 dark:placeholder-gray-500
+                         rounded-lg shadow-sm
+                         focus:outline-none focus:ring-2 focus:ring-upwork-green focus:border-transparent
+                         sm:text-sm transition resize-y"></textarea>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Remuneración (COP)</label>
+        <input type="number" formControlName="remuneracion" min="1"
+               class="appearance-none block w-full px-3 py-2.5
+                      bg-white dark:bg-gray-700
+                      border border-gray-300 dark:border-gray-600
+                      text-gray-900 dark:text-white
+                      rounded-lg shadow-sm
+                      focus:outline-none focus:ring-2 focus:ring-upwork-green focus:border-transparent
+                      sm:text-sm transition" />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Zona aproximada</label>
+        <input formControlName="zonaAproximada" placeholder="Ej. Centro, Tunja"
+               class="appearance-none block w-full px-3 py-2.5
+                      bg-white dark:bg-gray-700
+                      border border-gray-300 dark:border-gray-600
+                      text-gray-900 dark:text-white
+                      placeholder-gray-400 dark:placeholder-gray-500
+                      rounded-lg shadow-sm
+                      focus:outline-none focus:ring-2 focus:ring-upwork-green focus:border-transparent
+                      sm:text-sm transition" />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          Dirección exacta
+          <span class="text-gray-400 dark:text-gray-500 font-normal text-xs">(opcional, se revela tras match)</span>
+        </label>
+        <input formControlName="direccionExacta"
+               class="appearance-none block w-full px-3 py-2.5
+                      bg-white dark:bg-gray-700
+                      border border-gray-300 dark:border-gray-600
+                      text-gray-900 dark:text-white
+                      placeholder-gray-400 dark:placeholder-gray-500
+                      rounded-lg shadow-sm
+                      focus:outline-none focus:ring-2 focus:ring-upwork-green focus:border-transparent
+                      sm:text-sm transition" />
+      </div>
+
+      <div class="pt-2">
+        <button type="submit" [disabled]="loading()"
+                class="w-full flex justify-center items-center py-2.5 px-4
+                       border border-transparent rounded-full shadow-sm
+                       text-sm font-bold text-white
+                       bg-upwork-green hover:bg-upwork-green-hover
+                       focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-upwork-green
+                       dark:focus:ring-offset-gray-800
+                       transition disabled:opacity-60 disabled:cursor-not-allowed">
+          {{ loading() ? 'Guardando…' : (editId() ? 'Guardar cambios' : 'Crear borrador') }}
+        </button>
+      </div>
+
+    </form>
+  </div>
 </div>

@@ -1,46 +1,183 @@
-<div class="shell" [attr.data-theme]="themeRole()">
-  <header class="topbar" [attr.data-theme]="themeRole()">
-    <div class="topbar-start">
-      <button type="button" class="menu-toggle" (click)="toggleMenu()" aria-label="Menú">
-        ☰
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-50 h-13 flex items-center justify-between px-4
+                 bg-white dark:bg-gray-800
+                 border-b border-gray-200 dark:border-gray-700">
+
+    <!-- Izquierda: hamburger + brand -->
+    <div class="flex items-center gap-3">
+      <button type="button"
+              class="lg:hidden flex items-center justify-center w-9 h-9 rounded-md
+                     text-gray-500 dark:text-gray-400
+                     hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              (click)="toggleMenu()" aria-label="Menú">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
       </button>
-      <a routerLink="/inicio" class="brand" (click)="closeMenu()">
-        <span class="brand-icon">{{ brandLabel().icon }}</span>
-        <span class="brand-text">{{ brandLabel().text }}</span>
+
+      <a routerLink="/inicio" (click)="closeMenu()"
+         class="flex items-center gap-2 font-medium text-gray-900 dark:text-white no-underline">
+        <span>{{ brandLabel().icon }}</span>
+        <span class="text-sm sm:text-base">{{ brandLabel().text }}</span>
       </a>
     </div>
 
-    <nav class="nav" [class.nav-open]="menuOpen()">
-      <a routerLink="/inicio" routerLinkActive="active" (click)="closeMenu()">Inicio</a>
+    <!-- Centro: nav desktop -->
+    <nav class="hidden lg:flex items-center gap-1">
+      <a routerLink="/inicio" routerLinkActive="bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
+         class="px-3 py-1.5 rounded-md text-sm font-medium text-gray-600 dark:text-gray-300
+                hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+         (click)="closeMenu()">
+        Inicio
+      </a>
+
       @if (hasRole('ADMIN')) {
-        <a routerLink="/admin/usuarios" routerLinkActive="active" (click)="closeMenu()">Usuarios</a>
+        <a routerLink="/admin/usuarios" routerLinkActive="bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
+           class="px-3 py-1.5 rounded-md text-sm font-medium text-gray-600 dark:text-gray-300
+                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+           (click)="closeMenu()">
+          Usuarios
+        </a>
       }
+
       @if (hasRole('EMPLEADOR')) {
-        <a routerLink="/empleador/requerimientos" routerLinkActive="active" (click)="closeMenu()">
+        <a routerLink="/empleador/requerimientos" routerLinkActive="bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
+           class="px-3 py-1.5 rounded-md text-sm font-medium text-gray-600 dark:text-gray-300
+                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+           (click)="closeMenu()">
           Mis trabajos
         </a>
       }
+
       @if (hasRole('AYUDANTE')) {
-        <a routerLink="/ayudante/vacantes" routerLinkActive="active" (click)="closeMenu()">Vacantes</a>
+        <a routerLink="/ayudante/vacantes" routerLinkActive="bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
+           class="px-3 py-1.5 rounded-md text-sm font-medium text-gray-600 dark:text-gray-300
+                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+           (click)="closeMenu()">
+          Vacantes
+        </a>
       }
-      <a routerLink="/perfil" routerLinkActive="active" (click)="closeMenu()">Perfil</a>
-      <a routerLink="/chats" routerLinkActive="active" (click)="closeMenu()">Chats</a>
+
+      <a routerLink="/perfil" routerLinkActive="bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
+         class="px-3 py-1.5 rounded-md text-sm font-medium text-gray-600 dark:text-gray-300
+                hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+         (click)="closeMenu()">
+        Perfil
+      </a>
+
+      <a routerLink="/chats" routerLinkActive="bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
+         class="px-3 py-1.5 rounded-md text-sm font-medium text-gray-600 dark:text-gray-300
+                hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+         (click)="closeMenu()">
+        Chats
+      </a>
     </nav>
 
-    <div class="user-area">
+    <!-- Derecha: tema + usuario -->
+    <div class="flex items-center gap-2">
+      <button type="button" (click)="toggleTheme()"
+              class="flex items-center justify-center w-9 h-9 rounded-full
+                     bg-gray-100 dark:bg-gray-700
+                     text-gray-500 dark:text-gray-400
+                     hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+              aria-label="Alternar tema">
+        @if (isDarkMode) {
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+          </svg>
+        } @else {
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+          </svg>
+        }
+      </button>
+
       @if (auth.currentUser(); as u) {
         <app-user-avatar [url]="fotoUsuario()" [name]="nombreUsuario()" size="sm" />
-        <span class="user-name">{{ u.nombre }} {{ u.apellido }}</span>
+        <span class="hidden sm:block text-sm text-gray-700 dark:text-gray-300">
+          {{ u.nombre }} {{ u.apellido }}
+        </span>
       }
-      <button type="button" class="btn btn-ghost" (click)="logout()">Salir</button>
+
+      <button type="button" (click)="logout()"
+              class="px-3 py-1.5 text-sm font-medium rounded-md
+                     border border-gray-300 dark:border-gray-600
+                     text-gray-700 dark:text-gray-300
+                     hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+        Salir
+      </button>
     </div>
   </header>
 
+  <!-- MENÚ MÓVIL -->
   @if (menuOpen()) {
-    <button type="button" class="nav-backdrop" (click)="closeMenu()" aria-label="Cerrar menú"></button>
+    <div class="lg:hidden bg-white dark:bg-gray-800
+                border-b border-gray-200 dark:border-gray-700
+                px-4 py-2 flex flex-col gap-1">
+
+      <a routerLink="/inicio" routerLinkActive="bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
+         class="px-3 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-300
+                hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+         (click)="closeMenu()">
+        Inicio
+      </a>
+
+      @if (hasRole('ADMIN')) {
+        <a routerLink="/admin/usuarios" routerLinkActive="bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
+           class="px-3 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-300
+                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+           (click)="closeMenu()">
+          Usuarios
+        </a>
+      }
+
+      @if (hasRole('EMPLEADOR')) {
+        <a routerLink="/empleador/requerimientos" routerLinkActive="bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
+           class="px-3 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-300
+                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+           (click)="closeMenu()">
+          Mis trabajos
+        </a>
+      }
+
+      @if (hasRole('AYUDANTE')) {
+        <a routerLink="/ayudante/vacantes" routerLinkActive="bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
+           class="px-3 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-300
+                  hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+           (click)="closeMenu()">
+          Vacantes
+        </a>
+      }
+
+      <a routerLink="/perfil" routerLinkActive="bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
+         class="px-3 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-300
+                hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+         (click)="closeMenu()">
+        Perfil
+      </a>
+
+      <a routerLink="/chats" routerLinkActive="bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
+         class="px-3 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-300
+                hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+         (click)="closeMenu()">
+        Chats
+      </a>
+    </div>
+
+    <!-- Backdrop -->
+    <button type="button"
+            class="lg:hidden fixed inset-0 z-40 bg-black/20 dark:bg-black/40"
+            (click)="closeMenu()" aria-label="Cerrar menú"></button>
   }
 
-  <main class="main">
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="flex-1 p-4 sm:p-6">
     <router-outlet />
   </main>
+
 </div>

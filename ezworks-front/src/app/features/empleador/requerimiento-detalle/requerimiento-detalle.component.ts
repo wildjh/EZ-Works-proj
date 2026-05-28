@@ -13,7 +13,6 @@ import { assetUrl } from '../../../core/utils/asset-url';
   standalone: true,
   imports: [RouterLink, CurrencyPipe, ReactiveFormsModule, UserAvatarComponent],
   templateUrl: './requerimiento-detalle.component.html',
-  styleUrl: './requerimiento-detalle.component.css',
 })
 export class RequerimientoDetalleComponent implements OnInit {
   private readonly api = inject(ApiService);

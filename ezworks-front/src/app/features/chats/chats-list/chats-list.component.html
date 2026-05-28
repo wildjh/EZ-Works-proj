@@ -1,39 +1,80 @@
-<div class="page">
-  <h1>Chats</h1>
-  <p class="muted">Conversaciones con tus matches</p>
+<div class="p-6 md:p-8 min-h-screen bg-gray-50 dark:bg-gray-900">
+
+  <div class="mb-8">
+    <h1 class="text-2xl font-bold text-upwork-dark dark:text-white tracking-tight">Chats</h1>
+    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Conversaciones con tus matches</p>
+  </div>
 
   @if (loading()) {
-    <p class="muted">Cargando chats…</p>
-  } @else if (error()) {
-    <p class="alert alert-error">{{ error() }}</p>
-  } @else if (chats().length === 0) {
-    <div class="card empty">
-      <p class="muted">Aún no tienes conversaciones. Aparecerán aquí cuando se confirme un match.</p>
+    <div class="flex items-center gap-3 p-8 justify-center text-gray-400 dark:text-gray-500 font-medium text-sm">
+      <svg class="animate-spin h-5 w-5 text-upwork-green" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+      Cargando chats…
     </div>
+
+  } @else if (error()) {
+    <div class="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800
+                rounded-xl text-sm font-medium text-red-600 dark:text-red-400 flex items-center gap-2">
+      <span class="w-2 h-2 rounded-full bg-red-500 dark:bg-red-400"></span>
+      {{ error() }}
+    </div>
+
+  } @else if (chats().length === 0) {
+    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-12 text-center">
+      <svg class="mx-auto h-10 w-10 text-gray-300 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+      </svg>
+      <p class="text-sm font-medium text-gray-500 dark:text-gray-400">
+        Aún no tienes conversaciones. Aparecerán aquí cuando se confirme un match.
+      </p>
+    </div>
+
   } @else {
-    <ul class="chat-list">
+    <ul class="space-y-2">
       @for (c of chats(); track c.id) {
         <li>
-          <a
-            [routerLink]="['/chat', c.id]"
-            (click)="abrirChat(c.id, $event)"
-            class="chat-item card"
-            [class.chat-closed]="!c.activa"
-          >
-            <app-user-avatar [url]="fotoChat(c)" [name]="nombreChat(c)" size="sm" />
-            <div class="chat-item-main">
-              <strong>{{ c.otroParticipanteNombre }} {{ c.otroParticipanteApellido }}</strong>
-              @if (!c.activa) {
-                <span class="badge-closed-sm">Cerrado</span>
+          <a [routerLink]="['/chat', c.id]" (click)="abrirChat(c.id, $event)"
+             class="flex items-center gap-4 p-4
+                    bg-white dark:bg-gray-800
+                    border border-gray-200 dark:border-gray-700
+                    rounded-2xl shadow-xs
+                    hover:border-upwork-green dark:hover:border-upwork-green
+                    hover:shadow-sm transition duration-150 group"
+             [class.opacity-70]="!c.activa">
+
+            <app-user-avatar [url]="fotoChat(c)" [name]="nombreChat(c)" size="sm" class="shrink-0" />
+
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2 mb-0.5">
+                <strong class="text-sm font-bold text-upwork-dark dark:text-white truncate
+                               group-hover:text-upwork-green transition">
+                  {{ c.otroParticipanteNombre }} {{ c.otroParticipanteApellido }}
+                </strong>
+                @if (!c.activa) {
+                  <span class="shrink-0 inline-flex items-center px-2 py-0.5 rounded-md text-xs font-semibold
+                               bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400
+                               border border-gray-200 dark:border-gray-600">
+                    Cerrado
+                  </span>
+                }
+              </div>
+
+              @if (c.requerimientoTitulo) {
+                <p class="text-xs font-medium text-upwork-green truncate mb-1">{{ c.requerimientoTitulo }}</p>
               }
-              <span class="chat-job">{{ c.requerimientoTitulo }}</span>
+
               @if (c.ultimoMensaje) {
-                <p class="chat-preview">{{ c.ultimoMensaje }}</p>
+                <p class="text-xs text-gray-500 dark:text-gray-400 truncate">{{ c.ultimoMensaje }}</p>
               } @else {
-                <p class="chat-preview muted">Sin mensajes aún</p>
+                <p class="text-xs text-gray-400 dark:text-gray-500 italic">Sin mensajes aún</p>
               }
             </div>
-            <time>{{ c.abiertaEn | date:'short' }}</time>
+
+            <time class="shrink-0 text-xs text-gray-400 dark:text-gray-500 font-mono self-start mt-0.5">
+              {{ c.abiertaEn | date:'short' }}
+            </time>
           </a>
         </li>
       }

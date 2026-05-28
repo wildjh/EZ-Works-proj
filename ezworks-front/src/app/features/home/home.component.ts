@@ -7,7 +7,6 @@ import { AuthService } from '../../core/services/auth.service';
   standalone: true,
   imports: [RouterLink],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css',
 })
 export class HomeComponent {
   readonly auth = inject(AuthService);

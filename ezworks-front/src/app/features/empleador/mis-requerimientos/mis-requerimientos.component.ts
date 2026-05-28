@@ -9,7 +9,6 @@ import { Requerimiento } from '../../../core/models/api.models';
   standalone: true,
   imports: [RouterLink, CurrencyPipe],
   templateUrl: './mis-requerimientos.component.html',
-  styleUrl: './mis-requerimientos.component.css',
 })
 export class MisRequerimientosComponent implements OnInit {
   private readonly api = inject(ApiService);

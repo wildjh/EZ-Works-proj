@@ -9,7 +9,6 @@ import { Categoria } from '../../../core/models/api.models';
   standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './requerimiento-form.component.html',
-  styleUrl: './requerimiento-form.component.css',
 })
 export class RequerimientoFormComponent implements OnInit {
   private readonly api = inject(ApiService);

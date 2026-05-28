@@ -11,7 +11,6 @@ import { assetUrl } from '../../../core/utils/asset-url';
   standalone: true,
   imports: [RouterLink, DatePipe, UserAvatarComponent],
   templateUrl: './chats-list.component.html',
-  styleUrl: './chats-list.component.css',
 })
 export class ChatsListComponent implements OnInit {
   private readonly api = inject(ApiService);

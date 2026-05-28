@@ -8,13 +8,13 @@ import { ChatRealtimeService } from '../../core/services/chat-realtime.service';
 import { Conversacion, Mensaje } from '../../core/models/api.models';
 import { UserAvatarComponent } from '../../core/components/user-avatar/user-avatar.component';
 import { assetUrl } from '../../core/utils/asset-url';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, DatePipe, UserAvatarComponent],
+  imports: [ReactiveFormsModule, RouterLink, DatePipe, UserAvatarComponent, NgClass],
   templateUrl: './chat.component.html',
-  styleUrl: './chat.component.css',
 })
 export class ChatComponent implements OnInit, OnDestroy {
   private readonly api = inject(ApiService);

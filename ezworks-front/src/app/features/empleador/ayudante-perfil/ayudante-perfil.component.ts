@@ -10,7 +10,6 @@ import { assetUrl } from '../../../core/utils/asset-url';
   standalone: true,
   imports: [RouterLink, UserAvatarComponent],
   templateUrl: './ayudante-perfil.component.html',
-  styleUrl: './ayudante-perfil.component.css',
 })
 export class AyudantePerfilComponent implements OnInit {
   private readonly api = inject(ApiService);

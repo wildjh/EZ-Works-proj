@@ -9,7 +9,6 @@ import { RolCodigo } from '../../../core/models/api.models';
   standalone: true,
   imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css',
 })
 export class RegisterComponent {
   private readonly fb = inject(FormBuilder);

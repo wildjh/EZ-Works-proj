@@ -11,7 +11,6 @@ import { assetUrl } from '../../core/utils/asset-url';
   standalone: true,
   imports: [ReactiveFormsModule, CurrencyPipe, DatePipe],
   templateUrl: './perfil.component.html',
-  styleUrl: './perfil.component.css',
 })
 export class PerfilComponent implements OnInit {
   private readonly api = inject(ApiService);

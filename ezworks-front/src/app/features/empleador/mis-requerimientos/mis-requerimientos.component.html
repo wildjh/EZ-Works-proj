@@ -1,28 +1,107 @@
-<div class="page">
-  <div class="page-header">
-    <h1>Mis requerimientos</h1>
-    <a routerLink="/empleador/requerimientos/nuevo" class="btn btn-primary">+ Nuevo</a>
+<div class="p-6 md:p-8 min-h-screen bg-gray-50 dark:bg-gray-900">
+
+  <div class="mb-8 flex items-center justify-between gap-4">
+    <div>
+      <h1 class="text-2xl font-bold text-upwork-dark dark:text-white tracking-tight">Mis requerimientos</h1>
+      <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Gestiona tus vacantes publicadas.</p>
+    </div>
+    <a routerLink="/empleador/requerimientos/nuevo"
+       class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full
+              text-sm font-bold text-white
+              bg-upwork-green hover:bg-upwork-green-hover
+              transition shadow-sm shrink-0">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+      </svg>
+      Nuevo
+    </a>
   </div>
 
   @if (loading()) {
-    <p class="muted">Cargando…</p>
+    <div class="flex items-center gap-3 p-8 justify-center text-gray-400 dark:text-gray-500 font-medium text-sm">
+      <svg class="animate-spin h-5 w-5 text-upwork-green" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+      Cargando…
+    </div>
+
   } @else if (error()) {
-    <div class="alert alert-error">{{ error() }}</div>
+    <div class="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800
+                rounded-xl text-sm font-medium text-red-600 dark:text-red-400 flex items-center gap-2">
+      <span class="w-2 h-2 rounded-full bg-red-500 dark:bg-red-400"></span>
+      {{ error() }}
+    </div>
+
   } @else if (items().length === 0) {
-    <div class="card empty">Aún no has publicado trabajos.</div>
+    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-12 text-center">
+      <svg class="mx-auto h-10 w-10 text-gray-300 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+      </svg>
+      <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Aún no has publicado trabajos.</p>
+    </div>
+
   } @else {
-    <ul class="list">
+    <ul class="space-y-3">
       @for (r of items(); track r.id) {
         <li>
-          <a [routerLink]="['/empleador/requerimientos', r.id]" class="card list-item">
-            <div class="list-item-top">
-              <strong>{{ r.titulo }}</strong>
-              <span class="badge" [attr.data-estado]="r.estado">{{ estadoLabel(r.estado) }}</span>
+          <a [routerLink]="['/empleador/requerimientos', r.id]"
+             class="block bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700
+                    rounded-2xl p-5 shadow-xs
+                    hover:border-upwork-green dark:hover:border-upwork-green
+                    hover:shadow-sm transition duration-150 group">
+
+            <div class="flex items-start justify-between gap-4 mb-2">
+              <h2 class="text-base font-bold text-upwork-dark dark:text-white
+                         group-hover:text-upwork-green transition">
+                {{ r.titulo }}
+              </h2>
+
+              <!-- Badge de estado -->
+              @if (r.estado === 'BORRADOR') {
+                <span class="shrink-0 inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold
+                             bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                             border border-gray-200 dark:border-gray-600">
+                  Borrador
+                </span>
+              } @else if (r.estado === 'PUBLICADO') {
+                <span class="shrink-0 inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold
+                             bg-green-50 dark:bg-green-900/30 text-upwork-green dark:text-green-400
+                             border border-green-100 dark:border-green-800">
+                  Publicado
+                </span>
+              } @else if (r.estado === 'EN_MATCH') {
+                <span class="shrink-0 inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold
+                             bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400
+                             border border-blue-100 dark:border-blue-800">
+                  En match
+                </span>
+              } @else if (r.estado === 'FINALIZADO') {
+                <span class="shrink-0 inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold
+                             bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400
+                             border border-gray-200 dark:border-gray-600">
+                  Finalizado
+                </span>
+              } @else {
+                <span class="shrink-0 inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold
+                             bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400
+                             border border-red-100 dark:border-red-800">
+                  {{ estadoLabel(r.estado) }}
+                </span>
+              }
             </div>
-            <p>{{ r.categoriaNombre }} · {{ r.remuneracion | currency:'COP':'symbol-narrow':'1.0-0' }}</p>
-            @if (r.zonaAproximada) {
-              <p class="muted">{{ r.zonaAproximada }}</p>
-            }
+
+            <div class="flex flex-wrap items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+              <span class="font-medium text-gray-700 dark:text-gray-300">{{ r.categoriaNombre }}</span>
+              <span class="text-gray-300 dark:text-gray-600">&bull;</span>
+              <span class="font-semibold text-upwork-green">
+                {{ r.remuneracion | currency:'COP':'symbol-narrow':'1.0-0' }}
+              </span>
+              @if (r.zonaAproximada) {
+                <span class="text-gray-300 dark:text-gray-600">&bull;</span>
+                <span>{{ r.zonaAproximada }}</span>
+              }
+            </div>
           </a>
         </li>
       }

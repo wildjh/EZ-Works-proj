@@ -10,11 +10,12 @@ import { RolCodigo } from '../../core/models/api.models';
   standalone: true,
   imports: [RouterOutlet, RouterLink, RouterLinkActive, UserAvatarComponent],
   templateUrl: './shell.component.html',
-  styleUrl: './shell.component.css',
 })
 export class ShellComponent implements OnInit {
   readonly auth = inject(AuthService);
   readonly menuOpen = signal(false);
+
+  isDarkMode = false;
 
   readonly themeRole = computed(() => {
     const roles = this.auth.roles();
@@ -40,6 +41,20 @@ export class ShellComponent implements OnInit {
   ngOnInit(): void {
     if (this.auth.getToken() && !this.auth.sessionReady()) {
       this.auth.ensureSession().subscribe();
+    }
+
+    this.isDarkMode = document.documentElement.classList.contains('dark');
+  }
+
+  toggleTheme(): void {
+    this.isDarkMode = !this.isDarkMode;
+
+    if (this.isDarkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
     }
   }
 
