@@ -11,3 +11,4 @@
 # Ignore build output folders
 /target/
 /ezworks-backend/target/
+.idea/
